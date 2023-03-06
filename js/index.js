@@ -2,7 +2,7 @@ let courses = [
     {
       id: 1,
       subject: "Arts and Craft",
-      location: "London",
+      location: "Spain",
       price: "$200",
       noOfSpaces: 5,
       image:"image/art&craft.jpeg"
