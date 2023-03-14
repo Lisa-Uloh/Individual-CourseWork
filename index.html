@@ -18,7 +18,7 @@
         <header>
             <div class="container">
                <div class="row">
-                  <div class="col-md-12 col-sm-12 col-lg-12 col-xl-3">
+                  <div class="col-md-3 col-sm-3 col-lg-3 col-xl-3 col-3">
                      <div class="logo">
                         <a href="index.html" title="logo"> <img src="image/kid.png" width="80" height="80" alt="" srcset=""> </a>
                      </div>
@@ -28,111 +28,215 @@
                         </span>
                      </div>
                   </div>
-                  <div class="col-md-12 col-sm-12 col-lg-12 col-xl-9">
-                    
+                  <div class="col-md-9 col-sm-9 col-lg-9 col-xl-9 col-9">
+                    <div style="float: right; margin-top: 1.5em;">
+                        <div class="container">
+                            <button class="btn btn-primary mb-4 mt-6" v-on:click='showCheckout' :disabled="cart.length === 0">
+                               
+                           <i class="fa-solid fa-cart-plus"></i>
+                           <span class="badge rounded-pill badge-notification bg-danger">{{cartItemCount}}</span>
+                       </button>
+                       </div>
+                    </div>
                   </div>
                </div>
             </div>
          </header>
-         <div class="container">
-            <div class="row" style="width:100%">
-                <div class="col-md-7 col-sm-12 col-12">
-                    <h1 v-text="sitename" class="p-5 text"></h1>
-                    
-                </div>
-                <div class="col-md-4 col-sm-12 col-12">
-                    <div id="search_parent">
-                        <input type="text" id="search1" placeholder="Search here..." v-model="searchInput" />
-                        <label for="search1"><i class="fa fa-search" v-on:click="search"></i></label>
-                    </div>
-                    
-                </div>
-             </div>
-         </div>
+         <!-- <div class="container">
+           
+         </div> -->
          
         <div class="container-fluid mt-4">
-            <div class="row">
-                <div class="col-lg-3">
-                    <div class="container">
-                         <button class="btn btn-primary mb-4   ">
+            <div v-if="showCourses">
+                <div class="row" style="width:100%">
+                    <div class="col-md-7 col-sm-12 col-12">
+                        <h1 v-text="sitename" class="p-5 text"></h1>
                         
-                        <i class="fa-solid fa-cart-plus"></i> Checkout
-                    </button>
                     </div>
-                    <div class="row">
-                        <div class="col-sm-6 col-lg-12 col-md-6 col-6">
-                            <div class="form-check">
-                                <input class="form-check-input" v-model="sortBySubject" type="checkbox" value="" id="flexCheckChecked">
-                                <label class="form-check-label" for="flexCheckChecked">
-                                  Subject
-                                </label>
-                              </div>
-                              <div class="form-check">
-                                <input class="form-check-input" v-model="sortByLocation" type="checkbox" value="" id="flexCheckChecked">
-                                <label class="form-check-label" for="flexCheckChecked">
-                                  Location
-                                </label>
-                              </div>
-                              <div class="form-check">
-                                <input class="form-check-input" v-model="sortByPrice" type="checkbox" value="" id="flexCheckChecked" checked>
-                                <label class="form-check-label" for="flexCheckChecked">
-                                  Price
-                                </label>
-                              </div>
+                    <div class="col-md-4 col-sm-12 col-12">
+                        <div id="search_parent">
+                            <input type="text" id="search1" placeholder="Search here..." v-model="searchInput" />
+                            <label for="search1"><i class="fa fa-search" v-on:click="search"></i></label>
                         </div>
-                        <div class="col-sm-6 col-lg-12 col-md-6 col-6">
-                              <!-- <div class="form-check">
-                        <input class="form-check-input" v-model="sortByAvailbility" type="checkbox" value="" id="flexCheckChecked" checked>
-                        <label class="form-check-label" for="flexCheckChecked">
-                          Available
-                        </label>
-                      </div> -->
-                      <div class="form-check">
-                        <input class="form-check-input" v-model="ascending" type="checkbox" value="" id="flexCheckChecked" checked>
-                        <label class="form-check-label" for="flexCheckChecked">
-                          Ascending
-                        </label>
-                      </div>
-                      <div class="form-check">
-                        <input class="form-check-input" v-model="descending" type="checkbox" value="" id="flexCheckChecked" checked>
-                        <label class="form-check-label" for="flexCheckChecked">
-                          Descending
-                        </label>
-                      </div>
-                        </div>
+                        
                     </div>
-                     
-                    
+                 </div>
+                <div class="row">
+                    <div class="col-lg-3">
+                        
+                        <div class="row">
+                            <div class="col-sm-6 col-lg-6 col-md-6 col-6">
+                                <div class="form-check">
+                                    <label><input type="radio" v-model="filterType" value="subject"> Name</label>
+                                  </div>
+                                  <div class="form-check">
+                                    <label><input type="radio" v-model="filterType" value="price"> Price</label>
+                                  </div>
+                                  <div class="form-check">
+                                    <label><input type="radio" v-model="filterType" value="location"> Location</label>
+                                  </div>
+                            </div>
+                            <div class="col-sm-6 col-lg-6 col-md-6 col-6">
+                          <div class="form-check">
+                            <label><input type="radio" v-model="sortOrder" value="asc"> Ascending</label>
+                          </div>
+                          <div class="form-check">
+                            <label><input type="radio" v-model="sortOrder" value="desc"> Descending</label>
+                          </div>
+                            </div>
+                        </div>
+                         
+                    </div>
+                    <div class="col-lg-9">
+                        
+                        <div class="row wrapper">  
+                              
+                            <div class="col-lg-4 col-md-6 col-sm-6 col-12 box" v-for="(course, index) in sortedItems " :key="index" >
+                               <div class="card my-3 product">
+                                  <div class="card-image">
+                                   <div class="wrap">
+                                     <img class="img-fluid" v-bind:src="course.image" alt="image 1">
+                                  </div><!-- card image -->
+                                  </div> 
+                                  <div class="card-content bg-light text-dark">
+                                  <span class="card-title">{{course.subject}}</span>         
+                                  <hr>
+                                
+                                  <span>{{course.location}}</span>
+                                  <span style="float: right;">{{course.price}}</span>
+                                  <br>
+                                  <br>
+                                  <span class="pt-5">No of Spaces {{course.noOfSpaces}}</span>
+                                  <br>
+                                  <br>
+                                  <div class="row">
+                                    <div class="col-9 col-lg-9 col-md-9 col-sm-9">
+                                        <button type="button" id="show" data-target="show1" class="show btn btn-custom float-right" aria-label="Left Align" v-on:click="addToCart(course)" v-if="canAddToCart(course)"><i class="fa-solid fa-cart-plus"></i> Add to cart</button>
+                                  <button disabled="disabled" v-else type="button" id="show" data-target="show1" class="show btn btn-custom float-right" aria-label="Left Align"><i class="fa-solid fa-cart-plus"></i>Empty</button>
+                                    </div>
+                                    <!-- <div class="col-6 col-lg-6 col-md-6 col-sm-6">
+                                        <button data-target="show1" v-if="itemAddedToCart" class="show btn btn-custom float-right" aria-label="Left Align" style="float: right;" v-on:click="removeFromCart(index)"><i class="fa-solid fa-cart-minus"></i> Remove</button>
+                                    </div> -->
+                                  </div>
+                                  
+                                  
+                                 </div><!-- card content -->
+                                 <div class="card-reveal show1">
+                                 <span class="card-title">Card Title</span> <button type="button" class="close" data-dismiss="modal" aria-label="Close"><span aria-hidden="true">×</span></button>
+                                  <p>Here is some more information about this product that is only revealed once clicked on.</p>
+                               </div><!-- card reveal -->
+                                </div>
+                            </div>
+                        </div>
                    
+                    </div>
                 </div>
-                <div class="col-lg-9">
-                    <div class="row">    
-                        <div class="col-lg-4 col-md-6 col-sm-6 col-12" v-for="course in sortedItems" >
-                           <div class="card my-3">
-                              <div class="card-image">
-                               <div class="wrap">
-                                 <img class="img-fluid" v-bind:src="course.image" alt="image 1">
-                              </div><!-- card image -->
-                              </div> 
-                              <div class="card-content bg-light text-dark">
-                              <span class="card-title">{{course.subject}}</span>         
-                              <hr>
+            </div>
+            <div v-else>
+                <div class="container">
+                    <div class="checkout">
+                        <div class="row">
+                            <div class="col-md-9">
+                                <h2>Order Summary</h2>
+                                <div class="row">
+                                    <div class="col-md-4 col-sm-2 col-12" v-for="course in checkOut()">
+                                    
+                                        <div class="card my-3">
+                                            <div class="card-image">
+                                             <div class="wrap">
+                                               <img class="img-fluid" v-bind:src="course.course.image" alt="image 1">
+                                            </div><!-- card image -->
+                                            </div> 
+                                            <div class="card-content bg-light text-dark">
+                                            <span class="card-title">{{course.course.subject}}</span>         
+                                            <hr>
+                                          
+                                            <span>{{course.course.location}}</span>
+                                            <span style="float: right;">Price {{course.course.price}}</span>
+                                            <br>
+                                            <br>
+                                           
+                                            <div class="row">
+                                              <div class="col-9 col-lg-9 col-md-9 col-sm-9">
+                                                <button class="btn btn-danger"
+                                                v-on:click="removeCartItem(course)"><small>Remove</small></button>
+                                              </div>
+                                            </div>
+                                          </div>
+                                    </div>
+                                    
+                                </div>
+                                <div v-if="checkOut() == ''">
+                                    <div class="text-center mt-4">
+                                        <img src="images/zero.png" alt="" width="160" height="160">
+                                        <p class="mt-2"><strong>Cart Empty</strong></p>
+                                    </div>
+                                </div>
+                            </div>
+                            </div>
                             
-                              <span>{{course.location}}</span>
-                              <span style="float: right;">{{course.price}}</span>
-                              <br>
-                              <br>
-                              <span class="pt-5">No of Spaces {{course.noOfSpaces}}</span>
-                              <button type="button" id="show" data-target="show1" class="show btn btn-custom float-right" style="float: right;" aria-label="Left Align"><i class="fa-solid fa-cart-plus"></i> Add to Cart</button>
-                             </div><!-- card content -->
-                             <div class="card-reveal show1">
-                             <span class="card-title">Card Title</span> <button type="button" class="close" data-dismiss="modal" aria-label="Close"><span aria-hidden="true">×</span></button>
-                              <p>Here is some more information about this product that is only revealed once clicked on.</p>
-                           </div><!-- card reveal -->
-                         </div>
-                     </div>
-                     </div>
+                            <div class="col-md-3">
+                                <div class=" order-md-2 mb-4">
+                                    <h4 class="d-flex justify-content-between align-items-center mb-3">
+                                        <span class="text-muted">Billing Address</span>
+                                        <span class="badge badge-secondary badge-pill">3</span>
+                                    </h4>
+                                    <form class="needs-validation" novalidate>
+                                        <ul class="list-group mb-3">
+                                            <label for="firstName">Full name</label>
+                                            <li class="list-group-item d-flex justify-content-between lh-condensed">
+                                                
+                                                <input type="text" class="form-control" id="firstName" placeholder="" v-model.trim="order.name" value="" required>
+                                                <div class="invalid-feedback">
+                                                    Valid first name is required.
+                                                </div>
+                                            </li>
+                                            <br>
+                                            <label for="lastName">Phone Number</label>
+                                            <li class="list-group-item d-flex justify-content-between lh-condensed">
+                                            
+                                            <input type="text" class="form-control" id="lastName" v-model="order.number" placeholder="" value="" required>
+                                            <div class="invalid-feedback">
+                                                Valid last name is required.
+                                            </div>
+                                            </li>
+                                        </ul>
+                                        <hr class="mb-4">
+                                        <button class="btn btn-primary btn-lg btn-block" v-on:click="submitForm" type="submit">Continue to checkout</button>
+                                    </form>
+                                </div>
+                            </div>
+                        </div>
+                      
+
+                    <div class="row">
+                        <div class="col-md-8 order-md-2 mb-4">
+                            <h4 class="d-flex justify-content-between align-items-center mb-3">
+                                <span class="text-muted">Your cart</span>
+                                <span class="badge badge-secondary badge-pill">3</span>
+                            </h4>
+                            <ul class="list-group mb-3">
+                                <li class="list-group-item d-flex justify-content-between lh-condensed">
+                                    <div>
+                                        <h6 class="my-0">Name</h6>
+
+                                    </div>
+                                    <span class="text-muted">{{order.name}}</span>
+                                </li>
+                                <li class="list-group-item d-flex justify-content-between lh-condensed">
+                                    <div>
+                                        <h6 class="my-0">Number</h6>
+
+                                    </div>
+                                    <span class="text-muted">{{order.number}}</span>
+                                </li>
+                            </ul>
+                        </div>
+                       
+                    </div>
                 </div>
+            </div>
+            
             </div>
             
           </div>
@@ -144,64 +248,140 @@
             sitename:'School Activities',
             courses : courses,
             cart: [],
+            showCourses: true,
             searchInput: '',
-            sortBySubject: false,
-            sortByLocation: false,
-            sortByPrice: false,
-            sortByAvailability: false,
-            ascending: false,
-            descending : false
-
+            filterType: 'subject',
+            sortOrder: 'asc',
+            itemAddedToCart: false,
+            currentStep: 'summary',
+            order:
+            {
+                name: '',
+                number: '',
+            },
         },
         methods: {
             search() {
             this.searchInput = this.searchInput.toLowerCase();
             },
+           
+            addToCart(course) {
+                for (let i = 0; i < this.courses.length; i++) {
+                    const c = this.courses[i];
+                    if (course.id == c.id) {
+                        c.noOfSpaces--
+                        break
+                    }
+                }
+                const id = Math.ceil(Math.random()*10000)+`${course.subject}`
+
+                this.cart.push({id:id,"course":course})
+              
+            },
+          
+            removeCartItem(cart_item) {
+                for (let i = 0; i < this.courses.length; i++) {
+                    const course = this.courses[i];
+                    
+                    if (cart_item.course.id == course.id) {
+                        course.noOfSpaces++
+                        break;
+                    }
+                }
+                for (let i = 0; i < this.cart.length; i++) {
+                    const item = this.cart[i];
+                    
+                    if (cart_item.id == item.id) {
+                        this.cart.splice(i,1)
+                        break;
+                    }
+                }
+
+            },
+            canAddToCart: function(course) {
+                return course.noOfSpaces > this.cartCount(course.id);
+            },
+
+            cartCount: function(id) {
+                let count = 0;
+                for(let i = 0; i < this.cart.length; i++)
+                {
+                    if(this.cart[i] === id)
+                    {
+                        count++;
+                    }
+                }
+                return count;
+                    // return this.cart.length || '';
+            },
+            showCheckout() {
+                this.showCourses = this.showCourses ? false : true;
+            },
+            checkOut() {
+                let show = this.cart
+                return show
+            },
+            submitForm() {
+                alert('Order Submitted')
+            },
+              
         },
         computed: {
 
             filteredItems() {
                 const filterInput = this.searchInput;
                 return this.courses.filter(course => {
-                    return course.subject.toLowerCase().includes(filterInput) ||
-                    course.location.toLowerCase().includes(filterInput);
+                    return course.subject.toString().includes(filterInput) ||
+                    course.location.toString().includes(filterInput);
                 });
             },
 
             sortedItems() {
                  // create a copy of the original array
-                 const filterInput = this.searchInput;
-                if (this.sortBySubject) {
-                    this.courses.sort((a, b) => a.subject.localeCompare(b.subject));
+                 let filtered = this.courses
+                 const filterInput = this.searchInput.toLowerCase();
+                 if (this.filterType === 'subject') {
+                    filtered = filtered.filter(course => {
+                        return course.subject.toLowerCase().includes(this.searchInput.toLowerCase())
+                    })
+                } 
+                else if (this.filterType === 'price') {
+                    filtered = filtered.filter(course => {
+                        return course.price.toString().includes(this.searchInput)
+                    })
+                } 
+                else if (this.filterType === 'location') {
+                    filtered = filtered.filter(course => {
+                        return course.location.toLowerCase().includes(this.searchInput.toLowerCase())
+                    })
                 }
-                if (this.sortByLocation) {
-                    this.courses.sort((a, b) => a.location.localeCompare(b.location));
+                if (this.sortOrder === 'asc') {
+                filtered.sort((a, b) => {
+                    if (a[this.filterType] < b[this.filterType]) return -1
+                    if (a[this.filterType] > b[this.filterType]) return 1
+                    return 0
+                })
+                } else if (this.sortOrder === 'desc') {
+                filtered.sort((a, b) => {
+                    if (a[this.filterType] > b[this.filterType]) return -1
+                    if (a[this.filterType] < b[this.filterType]) return 1
+                    return 0
+                })
                 }
-                if (this.sortByPrice) {
-                    this.courses.sort((a, b) => a.price.localeCompare(b.price));
-                }
-                // if (this.sortByAvailability) {
-                //     this.courses.sort((a, b) => a.availability.localeCompare(b.availability));
-                // }
-                this.courses.sort((a, b) => {
-                    if (this.ascending) {
-                        return a.subject.localeCompare(b.subject);
-                    }
-                });
-                this.courses.sort((a, b) => {
-                    if (this.descending) {
-                        return b.subject.localeCompare(a.subject);
-                    }
-                });
-                
+                return filtered
                 return this.courses.filter(course => {
                     return course.subject.toLowerCase().includes(filterInput) ||
                     course.location.toLowerCase().includes(filterInput);
                 });
             },
+            cartItemCount: function() 
+            {
+                return this.cart.length;
+            },
         },
     
     })
+    
 </script>
 
 </body>
