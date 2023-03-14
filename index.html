@@ -147,7 +147,7 @@ return false;
                             <div class="col-md-9">
                                 <h2>Order Summary</h2>
                                 <div class="row">
-                                    <div class="col-md-4 col-sm-2 col-12" v-for="course in checkOut()">
+                                    <div class="col-md-4 col-sm-6 col-12" v-for="course in checkOut()">
                                     
                                         <div class="card my-3">
                                             <div class="card-image">
@@ -203,7 +203,7 @@ return false;
                                             <label for="lastName">Phone Number</label>
                                             <li class="list-group-item d-flex justify-content-between lh-condensed">
                                             
-                                            <input type="text" class="form-control" id="lastName" v-model="number" placeholder="" value="" required>
+                                            <input type="text" class="form-control" id="lastName" v-model="phone" v-on:blur="validatePhone" placeholder="" value="" required>
                                             <div class="invalid-feedback">
                                                 <span v-if="phoneError">{{ phoneError }}</span>
                                             </div>
@@ -211,7 +211,7 @@ return false;
                                         </ul>
                                         <hr class="mb-4">
                                         <button class="btn btn-primary btn-lg btn-block" v-on:click="submitForm" :disabled="!isValid" type="submit">Continue to checkout</button>
-                                        <div v-if="showMessage">{{ message }}</div>
+                                        
                                     </form>
                                 </div>
                             </div>
@@ -230,14 +230,14 @@ return false;
                                         <h6 class="my-0">Name</h6>
 
                                     </div>
-                                    <span class="text-muted">{{order.name}}</span>
+                                    <span class="text-muted">{{name}}</span>
                                 </li>
                                 <li class="list-group-item d-flex justify-content-between lh-condensed">
                                     <div>
                                         <h6 class="my-0">Number</h6>
 
                                     </div>
-                                    <span class="text-muted">{{order.number}}</span>
+                                    <span class="text-muted">{{phone}}</span>
                                 </li>
                             </ul>
                         </div>
@@ -263,9 +263,9 @@ return false;
             sortOrder: 'asc',
             itemAddedToCart: false,
             currentStep: 'summary',
-            nameError: '',
             name: '',
-            number: '',
+            phone: '',
+            nameError: '',
             phoneError: '',
            
         },
@@ -340,9 +340,9 @@ return false;
             validatePhone() {
                 const phoneRegex = /^[0-9]{10}$/
                 if (!phoneRegex.test(this.phone.trim())) {
-                this.phoneError = 'Phone number must be 10 digits'
+                    this.phoneError = 'Phone number must be 10 digits'
                 } else {
-                this.phoneError = ''
+                    this.phoneError = ''
                 }
             },
             submitForm() {
@@ -404,6 +404,8 @@ return false;
             },
             isValid() {
                 return this.name.trim() !== '' && this.phone.trim() !== '' && !this.nameError && !this.phoneError
+
+                // const result1 = typeof str === 'string' ? str.trim() : '';
             }
         },
     
