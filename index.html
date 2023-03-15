@@ -287,6 +287,9 @@ return false;
                 this.cart.push({id:id,"course":course})
               
             },
+            canAddToCart: function(course) {
+                return course.noOfSpaces > this.cartCount(course.id);
+            },
           
             removeCartItem(cart_item) {
                 for (let i = 0; i < this.courses.length; i++) {
@@ -307,9 +310,7 @@ return false;
                 }
 
             },
-            canAddToCart: function(course) {
-                return course.noOfSpaces > this.cartCount(course.id);
-            },
+           
 
             cartCount: function(id) {
                 let count = 0;
@@ -352,13 +353,13 @@ return false;
         },
         computed: {
 
-            filteredItems() {
-                const filterInput = this.searchInput;
-                return this.courses.filter(course => {
-                    return course.subject.toString().includes(filterInput) ||
-                    course.location.toString().includes(filterInput);
-                });
-            },
+            // filteredItems() {
+            //     const filterInput = this.searchInput;
+            //     return this.courses.filter(course => {
+            //         return course.subject.toString().includes(filterInput) ||
+            //         course.location.toString().includes(filterInput);
+            //     });
+            // },
 
             sortedItems() {
                  // create a copy of the original array
@@ -404,8 +405,6 @@ return false;
             },
             isValid() {
                 return this.name.trim() !== '' && this.phone.trim() !== '' && !this.nameError && !this.phoneError
-
-                // const result1 = typeof str === 'string' ? str.trim() : '';
             }
         },
     
