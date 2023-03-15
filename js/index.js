@@ -2,8 +2,8 @@ let courses = [
     {
       id: 1,
       subject: "Arts and Craft",
-      location: "Spain",
-      price: "$200",
+      location: "Dubai",
+      price: "$100",
       noOfSpaces: 5,
       image:"image/art&craft.jpeg"
     },
@@ -18,8 +18,8 @@ let courses = [
     {
         id: 3,
         subject: "Music",
-        location: "London",
-        price: "$200",
+        location: "Korea",
+        price: "$250",
         noOfSpaces: 5,
         image:"image/music.jpg"
     },
@@ -27,22 +27,22 @@ let courses = [
         id: 4,
         subject: "Theater",
         location: "London",
-        price: "$250",
+        price: "$150",
         noOfSpaces: 5,
         image:"image/theater2.jpeg"
     },
     {
         id: 5,
         subject: "Coding and Programming",
-        location: "London",
-        price: "$200",
+        location: "Swizerland",
+        price: "$300",
         noOfSpaces: 5,
         image:"image/coding.jpg"
     },
     {
         id: 6,
         subject: "Cooking and Baking",
-        location: "London",
+        location: "Korea",
         price: "$200",
         noOfSpaces: 5,
         image:"image/cooking.jpg"
@@ -50,7 +50,7 @@ let courses = [
     {
         id: 7,
         subject: "Science Experiments",
-        location: "London",
+        location: "Indian",
         price: "$300",
         noOfSpaces: 5,
         image:"image/scienceexp.jpg"
@@ -58,7 +58,7 @@ let courses = [
     {
         id: 8,
         subject: "Reading and writing",
-        location: "London",
+        location: "Dubai",
         price: "$200",
         noOfSpaces: 5,
         image:"image/reading.jpg"
@@ -67,14 +67,14 @@ let courses = [
         id: 9,
         subject: "Outdoor Activities",
         location: "London",
-        price: "$200",
+        price: "$100",
         noOfSpaces: 5,
         image:"image/outdoor.jpg"
     },
     {
         id: 10,
         subject: "Voluteering",
-        location: "London",
+        location: "Dubai",
         price: "$300",
         noOfSpaces: 5,
         image:"image/volutering.jpg"
