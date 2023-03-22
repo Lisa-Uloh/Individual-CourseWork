@@ -21,7 +21,7 @@ return false;
 
     </script>
 </head>
-<body oncontextmenu=" return disableRightClick();">
+<body">
     <div id="app">
         <header>
             <div class="container">
@@ -203,14 +203,13 @@ return false;
                                             <label for="lastName">Phone Number</label>
                                             <li class="list-group-item d-flex justify-content-between lh-condensed">
                                             
-                                            <input type="text" class="form-control" id="lastName" v-model="phone" v-on:blur="validatePhone" placeholder="" value="" required>
-                                            <div class="invalid-feedback">
-                                                <span v-if="phoneError">{{ phoneError }}</span>
-                                            </div>
+                                            <input type="number" class="form-control" id="lastName" v-model="phone" v-on:blur="validatePhone" placeholder="" value="" required>
+                                             
                                             </li>
                                         </ul>
                                         <hr class="mb-4">
-                                        <button class="btn btn-primary btn-lg btn-block" v-on:click="submitForm" :disabled="!isValid" type="submit">Continue to checkout</button>
+                                        <button v-if="!isValid" class="btn btn-primary btn-lg btn-block"disabled type="submit">Continue to checkout</button>
+                                        <button v-else class="btn btn-primary btn-lg btn-block" v-on:click="submitForm" type="submit">Continue to checkout</button>
                                         
                                     </form>
                                 </div>
@@ -262,7 +261,7 @@ return false;
             filterType: 'subject',
             sortOrder: 'asc',
             itemAddedToCart: false,
-            currentStep: 'summary',
+            
             name: '',
             phone: '',
             nameError: '',
@@ -347,19 +346,12 @@ return false;
                 }
             },
             submitForm() {
-                window.alert('Form submitted successfully!');
+                console.log('Hello');
+                alert('Form submitted successfully!');
             },
               
         },
         computed: {
-
-            // filteredItems() {
-            //     const filterInput = this.searchInput;
-            //     return this.courses.filter(course => {
-            //         return course.subject.toString().includes(filterInput) ||
-            //         course.location.toString().includes(filterInput);
-            //     });
-            // },
 
             sortedItems() {
                  // create a copy of the original array
@@ -404,7 +396,7 @@ return false;
                 return this.cart.length;
             },
             isValid() {
-                return this.name.trim() !== '' && this.phone.trim() !== '' && !this.nameError && !this.phoneError
+                return this.name.trim() !== '' && this.phone.trim() !== ''
             }
         },
     
