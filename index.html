@@ -349,7 +349,12 @@ return false;
                 console.log('Hello');
                 alert('Form submitted successfully!');
             },
-              
+            search_func(filterInput){
+                return this.courses.filter(course => {
+                    return course.subject.toLowerCase().includes(filterInput) ||
+                    course.location.toLowerCase().includes(filterInput);
+                });
+            }
         },
         computed: {
 
@@ -385,12 +390,9 @@ return false;
                     return 0
                 })
                 }
-                return filtered
-                return this.courses.filter(course => {
-                    return course.subject.toLowerCase().includes(filterInput) ||
-                    course.location.toLowerCase().includes(filterInput);
-                });
+                return this.search_func(filterInput)
             },
+            
             cartItemCount: function() 
             {
                 return this.cart.length;
